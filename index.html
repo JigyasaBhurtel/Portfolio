@@ -4,9 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Jigyasa Bhurtel</title>
-
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=Jost:wght@200;300;400&display=swap" rel="stylesheet"/>
-
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Raleway:wght@300;400;600&display=swap" rel="stylesheet"/>
   <style>
     *, *::before, *::after {
       margin: 0;
@@ -15,95 +13,409 @@
     }
 
     :root {
-      --cream: #f5f0ea;
-      --dark: #1a1612;
-      --gold: #b8914a;
-      --gold-light: #d4aa6a;
-      --muted: #7a6f63;
+      --accent-cyan: #00f5ff;
+      --accent-violet: #a855f7;
+      --accent-pink: #f0abfc;
+      --glow-cyan: 0 0 18px #00f5ff88, 0 0 60px #00f5ff33;
+      --glow-violet: 0 0 18px #a855f788, 0 0 60px #a855f733;
+      --bg-deep: #020510;
     }
 
     html, body {
       height: 100%;
-      background: var(--cream);
-      color: var(--dark);
-      font-family: 'Jost', sans-serif;
-      overflow: hidden;
+      width: 100%;
     }
 
-    /* Grain overlay */
-    body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
-      pointer-events: none;
-      z-index: 10;
-      opacity: 0.4;
-    }
-
-    /* Decorative border */
-    body::after {
-      content: '';
-      position: fixed;
-      inset: 28px;
-      border: 1px solid rgba(184,145,74,0.18);
-      pointer-events: none;
-      z-index: 5;
-      animation: fadeIn 2s ease forwards;
-    }
-
-    .page {
-      height: 100vh;
+    body {
+      font-family: 'Raleway', sans-serif;
+      background-color: var(--bg-deep);
+      color: #e2e8f0;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
+      min-height: 100vh;
+      overflow-x: hidden;
       position: relative;
     }
 
-    /* Background glow */
-    .glow {
-      position: absolute;
-      width: 520px;
-      height: 520px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(184,145,74,0.10) 0%, transparent 70%);
-      pointer-events: none;
-      animation: pulse 6s ease-in-out infinite;
+    /* ── Animated mesh background ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 70% 55% at 20% 30%, #0d0630 0%, transparent 70%),
+        radial-gradient(ellipse 60% 50% at 80% 70%, #030d1a 0%, transparent 70%),
+        radial-gradient(ellipse 80% 80% at 50% 50%, #060418 0%, transparent 80%);
+      z-index: 0;
     }
 
-    /* Corners */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        radial-gradient(circle at 15% 25%, #00f5ff12 0%, transparent 35%),
+        radial-gradient(circle at 85% 75%, #a855f712 0%, transparent 35%),
+        radial-gradient(circle at 50% 10%, #f0abfc08 0%, transparent 30%);
+      animation: breathe 8s ease-in-out infinite alternate;
+      z-index: 0;
+    }
+
+    @keyframes breathe {
+      0%   { opacity: 0.6; transform: scale(1); }
+      100% { opacity: 1;   transform: scale(1.05); }
+    }
+
+    /* ── Grid lines overlay ── */
+    .grid-lines {
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0,245,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,245,255,0.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* ── Floating particles ── */
+    .particles {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .particle {
+      position: absolute;
+      border-radius: 50%;
+      opacity: 0;
+      animation: drift linear infinite;
+    }
+
+    .particle:nth-child(1)  { width:3px; height:3px; background:#00f5ff; left:10%; animation-duration:14s; animation-delay:0s;   top:100%; }
+    .particle:nth-child(2)  { width:2px; height:2px; background:#a855f7; left:25%; animation-duration:18s; animation-delay:2s;   top:100%; }
+    .particle:nth-child(3)  { width:4px; height:4px; background:#f0abfc; left:40%; animation-duration:12s; animation-delay:5s;   top:100%; }
+    .particle:nth-child(4)  { width:2px; height:2px; background:#00f5ff; left:60%; animation-duration:16s; animation-delay:1s;   top:100%; }
+    .particle:nth-child(5)  { width:3px; height:3px; background:#a855f7; left:75%; animation-duration:20s; animation-delay:3s;   top:100%; }
+    .particle:nth-child(6)  { width:2px; height:2px; background:#f0abfc; left:88%; animation-duration:13s; animation-delay:7s;   top:100%; }
+    .particle:nth-child(7)  { width:3px; height:3px; background:#00f5ff; left:55%; animation-duration:15s; animation-delay:4s;   top:100%; }
+    .particle:nth-child(8)  { width:2px; height:2px; background:#a855f7; left:32%; animation-duration:19s; animation-delay:6s;   top:100%; }
+
+    @keyframes drift {
+      0%   { opacity: 0;   transform: translateY(0)   scale(1); }
+      10%  { opacity: 0.8; }
+      90%  { opacity: 0.5; }
+      100% { opacity: 0;   transform: translateY(-110vh) scale(0.5); }
+    }
+
+    /* ── Main card ── */
+    main {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      flex: 1;
+      padding: 2rem;
+      animation: fadeInUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(40px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── Profile image ── */
+    .profile-wrapper {
+      position: relative;
+      margin-bottom: 2.8rem;
+      animation: floatBob 5s ease-in-out infinite;
+    }
+
+    @keyframes floatBob {
+      0%, 100% { transform: translateY(0px); }
+      50%       { transform: translateY(-14px); }
+    }
+
+    /* Outer spinning ring */
+    .profile-ring {
+      position: absolute;
+      inset: -14px;
+      border-radius: 50%;
+      background: conic-gradient(
+        from 0deg,
+        #00f5ff,
+        #a855f7,
+        #f0abfc,
+        #00f5ff
+      );
+      animation: spinRing 6s linear infinite;
+      -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 3px), #000 calc(100% - 3px));
+              mask: radial-gradient(farthest-side, transparent calc(100% - 3px), #000 calc(100% - 3px));
+      filter: blur(0.5px);
+    }
+
+    @keyframes spinRing {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Pulsing glow halo */
+    .profile-halo {
+      position: absolute;
+      inset: -28px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #00f5ff22 0%, #a855f711 50%, transparent 70%);
+      animation: haloBreath 3s ease-in-out infinite alternate;
+    }
+
+    @keyframes haloBreath {
+      from { opacity: 0.4; transform: scale(0.95); }
+      to   { opacity: 1;   transform: scale(1.05); }
+    }
+
+    .profile-img {
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #0f1f3d 0%, #1a0a2e 100%);
+      border: 2px solid rgba(0, 245, 255, 0.25);
+      box-shadow:
+        0 0 30px #00f5ff33,
+        0 0 80px #a855f722,
+        inset 0 0 30px rgba(0, 245, 255, 0.05);
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Real photo */
+    .profile-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      border-radius: 50%;
+      display: block;
+    }
+
+    /* Shimmer sweep */
+    .profile-img::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        110deg,
+        transparent 30%,
+        rgba(255,255,255,0.06) 50%,
+        transparent 70%
+      );
+      animation: shimmer 4s ease-in-out infinite;
+    }
+
+    @keyframes shimmer {
+      0%   { transform: translateX(-100%) skewX(-20deg); }
+      50%, 100% { transform: translateX(200%) skewX(-20deg); }
+    }
+
+    /* ── Name block ── */
+    .name-block {
+      text-align: center;
+      animation: fadeInUp 1.4s 0.2s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+
+    .name {
+      font-family: 'Orbitron', monospace;
+      font-size: clamp(1.9rem, 5.5vw, 3.4rem);
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      line-height: 1.1;
+      background: linear-gradient(
+        135deg,
+        #e0f7ff 0%,
+        #00f5ff 35%,
+        #a855f7 65%,
+        #f0abfc 100%
+      );
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 0 12px #00f5ff55);
+      animation: nameGlow 4s ease-in-out infinite alternate;
+    }
+
+    @keyframes nameGlow {
+      from { filter: drop-shadow(0 0 8px #00f5ff44); }
+      to   { filter: drop-shadow(0 0 22px #00f5ffaa) drop-shadow(0 0 40px #a855f755); }
+    }
+
+    /* Decorative divider beneath the name */
+    .divider {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 1.2rem;
+    }
+
+    .divider-line {
+      width: 70px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--accent-cyan), transparent);
+      animation: lineGlow 3s ease-in-out infinite alternate;
+    }
+
+    @keyframes lineGlow {
+      from { opacity: 0.5; }
+      to   { opacity: 1; box-shadow: 0 0 8px var(--accent-cyan); }
+    }
+
+    .divider-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent-violet);
+      box-shadow: 0 0 10px var(--accent-violet);
+      animation: dotPulse 2s ease-in-out infinite;
+    }
+
+    @keyframes dotPulse {
+      0%, 100% { transform: scale(1);   opacity: 1; }
+      50%       { transform: scale(1.5); opacity: 0.6; }
+    }
+
+    /* ── Footer ── */
+    footer {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      text-align: center;
+      padding: 1.4rem 1rem;
+      animation: fadeInUp 1.6s 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+
+    .footer-inner {
+      display: inline-block;
+      padding: 0.6rem 2rem;
+      border-radius: 100px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(0, 245, 255, 0.1);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 0 20px rgba(0, 245, 255, 0.05);
+    }
+
+    footer p {
+      font-family: 'Raleway', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 300;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(180, 220, 255, 0.45);
+    }
+
+    footer p span {
+      color: rgba(0, 245, 255, 0.6);
+      font-weight: 600;
+    }
+
+    /* ── Corner decorations ── */
     .corner {
       position: fixed;
-      width: 48px;
-      height: 48px;
-      opacity: 0;
-      animation: fadeIn 1.8s ease 0.5s forwards;
+      width: 60px;
+      height: 60px;
+      z-index: 1;
+      opacity: 0.4;
     }
 
-    .corner-tl {
-      top: 20px;
-      left: 20px;
-      border-top: 1.5px solid var(--gold);
-      border-left: 1.5px solid var(--gold);
+    .corner::before,
+    .corner::after {
+      content: '';
+      position: absolute;
+      background: var(--accent-cyan);
     }
 
-    .corner-tr {
-      top: 20px;
-      right: 20px;
-      border-top: 1.5px solid var(--gold);
-      border-right: 1.5px solid var(--gold);
-    }
+    .corner::before { width: 2px; height: 100%; }
+    .corner::after  { width: 100%; height: 2px; }
 
-    .corner-bl {
-      bottom: 20px;
-      left: 20px;
-      border-bottom: 1.5px solid var(--gold);
-      border-left: 1.5px solid var(--gold);
-    }
+    .corner-tl { top: 20px; left: 20px; }
+    .corner-tr { top: 20px; right: 20px; transform: scaleX(-1); }
+    .corner-bl { bottom: 20px; left: 20px; transform: scaleY(-1); }
+    .corner-br { bottom: 20px; right: 20px; transform: scale(-1); }
 
-    .corner-br {
-      bottom: 20px;
+    /* ── Responsive ── */
+    @media (max-width: 480px) {
+      .profile-img { width: 140px; height: 140px; }
+      .profile-img svg { width: 76px; height: 76px; }
+      .profile-ring { inset: -10px; }
+      .profile-halo { inset: -20px; }
+      .corner { width: 40px; height: 40px; }
+      .corner-tl, .corner-tr { top: 14px; }
+      .corner-bl, .corner-br { bottom: 14px; }
+      .corner-tl, .corner-bl { left: 14px; }
+      .corner-tr, .corner-br { right: 14px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Grid lines -->
+  <div class="grid-lines"></div>
+
+  <!-- Floating particles -->
+  <div class="particles">
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+  </div>
+
+  <!-- Corner accents -->
+  <div class="corner corner-tl"></div>
+  <div class="corner corner-tr"></div>
+  <div class="corner corner-bl"></div>
+  <div class="corner corner-br"></div>
+
+  <!-- Main content -->
+  <main>
+    <!-- Profile image -->
+    <div class="profile-wrapper">
+      <div class="profile-halo"></div>
+      <div class="profile-ring"></div>
+      <div class="profile-img">
+        <img src="Jigyasa.jpg" alt="Jigyasa Bhurtel" />
+      </div>
+    </div>
+
+    <!-- Name -->
+    <div class="name-block">
+      <h1 class="name">Jigyasa Bhurtel</h1>
+      <div class="divider">
+        <div class="divider-line"></div>
+        <div class="divider-dot"></div>
+        <div class="divider-line"></div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-inner">
+      <p>© 2026 <span>Jigyasa Bhurtel</span>. All Rights Reserved.</p>
+    </div>
+  </footer>
+
+</body>
+</html>
       right: 20px;
       border-bottom: 1.5px solid var(--gold);
       border-right: 1.5px solid var(--gold);
